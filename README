@@ -1,0 +1,57 @@
+# n-pa11y-tools [![CircleCI](https://circleci.com/gh/Financial-Times/n-pa11y-tools.svg?style=svg&circle-token=33bcf2eb98fe2e875cc66de93d7e4a50369c952d)](https://circleci.com/gh/Financial-Times/n-pa11y-tools)
+
+This library is a command line tool for running the Pa11y CI tool for your project.
+
+## Requirements
+
+* Node version defined by `engines.node` in `package.json`. Run command `nvm use` to switch your local Node version to the one specified in `.nvmrc`.
+
+## Installation
+
+```sh
+git clone git@github.com:Financial-Times/n-pa11y-tools.git
+cd n-pa11y-tools
+npm install
+```
+
+## Development
+
+### Install from NPM
+
+```sh
+npm install --save-dev @financial-times/n-pa11y-tools
+```
+
+### Usage
+
+```sh
+Usage: a11y [options]
+
+Options:
+  -h, --help                      output usage information
+  -u, --base-url                  sets a base url for all relative urls in the tests
+
+```
+
+### Environment variables
+
+| Variable | Description |
+|---|---|
+| `PA11Y_WAIT` | The time to wait before running tests in milliseconds |
+| `PA11Y_ROUTE_EXCEPTIONS` | api_key for the lambda |
+| `PA11Y_ROUTE_HEADERS` | user types to get the tokens for (options: `premium`, `standard`, `expired`) |
+| `PA11Y_HIDE` | A CSS selector to hide elements from testing, selectors can be comma separated |
+| `PA11Y_VIEWPORTS` | Set viewports for puppeteer (`w1024h768,w375h667`) |
+
+### Example
+
+For example to deploy to a given project, you would use the following command:
+
+```sh
+	a11y --base-url https://(REVIEW_APP_FILE}.herokuapp.com
+```
+
+
+
+
+

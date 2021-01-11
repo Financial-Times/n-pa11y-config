@@ -1,0 +1,28 @@
+{
+  "name": "@financial-times/n-pa11y-config",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "heroku-postbuild": "make heroku-postbuild",
+    "prepare": "npx snyk protect || npx snyk protect -d || true",
+    "test": ""
+  },
+  "dependencies": {
+    "pa11y-ci": "^2.4.0"
+  },
+  "devDependencies": {
+    "snyk": "^1.167.2"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "snyk": true,
+  "husky": {
+    "hooks": {
+      "commit-msg": "secret-squirrel-commitmsg",
+      "pre-commit": "secret-squirrel"
+    }
+  }
+}
