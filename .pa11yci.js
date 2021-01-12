@@ -5,16 +5,25 @@ const path = require('path')
 const mkdirp = require('mkdirp')
 const utils = require('./lib/utils')
 
+// Args received from the 'run' task
+const args = {
+  file: process.env.PA11Y_TEST_FILE,
+  host: process.env.PA11Y_HOST,
+  wait: process.env.PA11Y_WAIT || 300,
+  exceptions: process.env.PA11Y_ROUTE_EXCEPTIONS,
+  hide: process.env.PA11Y_HIDE,
+  viewports: process.env.PA11Y_VIEWPORTS,
+  headers: process.env.PA11Y_HEADERS,
+}
+
 const defaultViewPortSize = {
   width: 1280,
   height: 800,
 }
 
-const viewports = [defaultViewPortSize].concat(
-  utils.parseEnvironmentViewPorts(process.env.PA11Y_VIEWPORTS)
-)
+const viewports = [defaultViewPortSize].concat(utils.parseEnvironmentViewPorts(args.viewports))
 
-const smoke = require(process.env.PA11Y_TEST_FILE)
+const smoke = require(args.file)
 
 const urls = []
 
@@ -37,7 +46,7 @@ const config = {
       'FT-Flags': DEFAULT_FLAGS,
     },
     timeout: 50000,
-    wait: process.env.PA11Y_WAIT || 300,
+    wait: args.wait,
     hideElements: 'iframe[src*=google],iframe[src*=proxy],iframe[src*=doubleclick]',
     rules: ['Principle1.Guideline1_3.1_3_1_AAA'],
   },
@@ -45,27 +54,23 @@ const config = {
 }
 
 // What routes returning 200 in smoke.js should we not test?
-// set per-project in PA11Y_ROUTE_EXCEPTIONS in config-vars
-const exceptions = process.env.PA11Y_ROUTE_EXCEPTIONS
-  ? process.env.PA11Y_ROUTE_EXCEPTIONS.split(',')
-  : []
+const exceptions = args.exceptions ? args.exceptions.split(',') : []
 
 // What elements should we not run pa11y on (i.e. google ad iFrames)
-// set per-project in PA11Y_HIDE in config-vars
 // Use with caution. May break the experience for users.
-config.defaults.hideElements = process.env.PA11Y_HIDE
-  ? `${process.env.PA11Y_HIDE},${config.defaults.hideElements}`
+config.defaults.hideElements = args.hide
+  ? `${args.hide},${config.defaults.hideElements}`
   : config.defaults.hideElements
 
-console.log('PA11Y_ROUTE_EXCEPTIONS:', process.env.PA11Y_ROUTE_EXCEPTIONS)
+console.log('args.exceptions:', args.exceptions)
 console.log('exceptions:', exceptions)
-console.log('PA11Y_HIDE:', process.env.PA11Y_HIDE)
+console.log('args.hide:', args.hide)
 console.log('config.defaults.hideElements:', config.defaults.hideElements)
 
 // Don't console.log headers once Hearer args is added to the object (possible private keys added)
 config.defaults.headers = {
   ...config.defaults.headers,
-  ...utils.parseStringArgToMap(process.env.PA11Y_HEADERS),
+  ...utils.parseStringArgToMap(pargs.headers),
 }
 
 smoke.forEach((smokeConfig) => {
@@ -85,7 +90,7 @@ smoke.forEach((smokeConfig) => {
     }
 
     const thisUrl = {
-      url: process.env.PA11Y_HOST + url,
+      url: args.host + url,
     }
 
     // Do we have test-specific headers?
@@ -139,7 +144,7 @@ for (let viewport of viewports) {
   for (let url of urls) {
     const resultUrl = extend(true, {viewport: viewport}, url)
 
-    if (process.env.PA11Y_HOST.includes('local')) {
+    if (args.host.includes('local')) {
       const pathname = new URL(resultUrl.url).pathname
       const screenshotName = pathname.substring(1).replace(/\//g, '_')
 
