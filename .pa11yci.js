@@ -106,9 +106,6 @@ smoke.forEach((smokeConfig) => {
 
     // Do we have test-specific headers?
     if (smokeConfig.headers) {
-      let fullCookie
-      let fullFlags
-
       // Merge the headers
       thisUrl.headers = Object.assign({}, config.defaults.headers, smokeConfig.headers)
 
