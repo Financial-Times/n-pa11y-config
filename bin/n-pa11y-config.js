@@ -23,15 +23,7 @@ program
   .action(async function (file, options) {
     try {
       const run = require('../tasks/run')
-      await run({
-        PA11Y_TEST_FILE: file,
-        PA11Y_HOST: options.host,
-        PA11Y_WAIT: options.wait,
-        PA11Y_ROUTE_EXCEPTIONS: options.exceptions,
-        PA11Y_HIDE: options.hide,
-        PA11Y_VIEWPORTS: options.viewports,
-        PA11Y_HEADERS: options.headers,
-      })
+      await run(file, options)
     } catch (err) {
       console.error(err)
     }

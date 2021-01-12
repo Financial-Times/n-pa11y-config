@@ -2,17 +2,25 @@
 
 const {spawn} = require('child_process')
 
-function run(config) {
-  const testFile = config.PA11Y_TEST_FILE
-
-  if (!testFile) {
+function run(file, options) {
+  if (!file) {
     console.error('Pa11y-config: Tests file not specified')
     return
   }
 
+  const args = {
+    PA11Y_TEST_FILE: file,
+    PA11Y_HOST: options.host,
+    PA11Y_WAIT: options.wait,
+    PA11Y_ROUTE_EXCEPTIONS: options.exceptions,
+    PA11Y_HIDE: options.hide,
+    PA11Y_VIEWPORTS: options.viewports,
+    PA11Y_HEADERS: options.headers,
+  }
+
   return new Promise((resolve, reject) => {
-    console.log(`Running Pa11y CI on ${testFile}`)
-    const pa11y = spawn('pa11y-ci', {env: {...process.env, ...config}})
+    console.log(`Running Pa11y CI on ${file}`)
+    const pa11y = spawn('pa11y-ci', {env: {...process.env, ...args}})
     pa11y.stdout.pipe(process.stdout)
     pa11y.on('error', (error) => {
       reject(error)
