@@ -78,8 +78,6 @@ config.defaults.hideElements = process.env.PA11Y_HIDE
 
 console.log('PA11Y_ROUTE_EXCEPTIONS:', process.env.PA11Y_ROUTE_EXCEPTIONS)
 console.log('exceptions:', exceptions)
-console.log('PA11Y_ROUTE_HEADERS:', process.env.PA11Y_ROUTE_HEADERS)
-console.log('headers:', config.defaults.headers)
 console.log('PA11Y_HIDE:', process.env.PA11Y_HIDE)
 console.log('config.defaults.hideElements:', config.defaults.hideElements)
 
