@@ -12,8 +12,12 @@ program
   .option('-w, --wait <wait>', 'The time to wait before running tests in milliseconds')
   .option('-e, --exceptions <exceptions>', 'Routes returning 200 that should not be tested')
   .option(
-    '-h, --hide <hide>',
+    '-i, --hide <hide>',
     'CSS selector to hide elements from testing, selectors can be comma separated'
+  )
+  .option(
+    '-h, --headers <headers>',
+    'Headers to be added to every test route. This is a comma separated key value list (key1=value1,key2=value2)'
   )
   .option('-v, --viewports <viewports>', 'Set viewports for puppeteer (`w1024h768,w375h667`)')
   .action(async function (file, options) {
@@ -26,6 +30,7 @@ program
         PA11Y_ROUTE_EXCEPTIONS: options.exceptions,
         PA11Y_HIDE: options.hide,
         PA11Y_VIEWPORTS: options.viewports,
+        PA11Y_HEADERS: options.headers,
       })
     } catch (err) {
       console.error(err)

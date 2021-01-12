@@ -29,6 +29,21 @@ const parseEnvironmentViewPorts = (viewports) => {
     .filter((v) => v)
 }
 
+const parseStringArgToMap = (arg) => {
+  const result = {}
+  if (!arg) {
+    return result
+  }
+
+  const pairs = arg.split(',')
+  for (pair of pairs) {
+    const [key, value] = pair.split('=')
+    res[key] = value
+  }
+
+  return result
+}
+
 const viewports = [defaultViewPortSize].concat(
   parseEnvironmentViewPorts(process.env.PA11Y_VIEWPORTS)
 )
@@ -81,8 +96,11 @@ console.log('exceptions:', exceptions)
 console.log('PA11Y_HIDE:', process.env.PA11Y_HIDE)
 console.log('config.defaults.hideElements:', config.defaults.hideElements)
 
-// Don't console.log headers once backend key is added to the object
-config.defaults.headers['FT-Next-Backend-Key'] = process.env.FT_NEXT_BACKEND_KEY
+// Don't console.log headers once Hearer args is added to the object (possible private keys added)
+config.defaults.headers = {
+  ...config.defaults.headers,
+  ...parseStringArgToMap(process.env.PA11Y_HEADERS),
+}
 
 smoke.forEach((smokeConfig) => {
   for (let url in smokeConfig.urls) {
