@@ -18,19 +18,22 @@ const parseEnvironmentViewPort = (viewportStr) => {
   return {width: Number(result[1]), height: Number(result[2])}
 }
 
-const parseEnvironmentViewPorts = (env) => {
-  if (!env.PA11Y_VIEWPORTS) {
+const parseEnvironmentViewPorts = (viewports) => {
+  if (!viewports) {
     return []
   }
 
-  return env.PA11Y_VIEWPORTS.split(',')
+  return viewports
+    .split(',')
     .map(parseEnvironmentViewPort)
     .filter((v) => v)
 }
 
-const viewports = [defaultViewPortSize].concat(parseEnvironmentViewPorts(process.env))
+const viewports = [defaultViewPortSize].concat(
+  parseEnvironmentViewPorts(process.env.PA11Y_VIEWPORTS)
+)
 
-const smoke = require('./test/smoke.js')
+const smoke = require(process.env.PA11Y_TEST_FILE)
 
 const urls = []
 
@@ -100,7 +103,7 @@ smoke.forEach((smokeConfig) => {
     }
 
     const thisUrl = {
-      url: process.env.TEST_URL + url,
+      url: process.env.PA11Y_HOST + url,
     }
 
     // Do we have test-specific headers?
@@ -157,7 +160,7 @@ for (let viewport of viewports) {
   for (let url of urls) {
     const resultUrl = extend(true, {viewport: viewport}, url)
 
-    if (process.env.TEST_URL.includes('local')) {
+    if (process.env.PA11Y_HOST.includes('local')) {
       const pathname = new URL(resultUrl.url).pathname
       const screenshotName = pathname.substring(1).replace(/\//g, '_')
 
