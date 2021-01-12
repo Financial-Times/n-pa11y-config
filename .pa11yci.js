@@ -3,49 +3,15 @@ const querystring = require('querystring')
 const {URL} = require('url')
 const path = require('path')
 const mkdirp = require('mkdirp')
+const utils = require('./lib/utils')
 
 const defaultViewPortSize = {
   width: 1280,
   height: 800,
 }
 
-const parseEnvironmentViewPort = (viewportStr) => {
-  const result = /w(\d{2,4})h(\d{2,4})/i.exec(viewportStr)
-  if (!result || result.length < 3) {
-    return null
-  }
-
-  return {width: Number(result[1]), height: Number(result[2])}
-}
-
-const parseEnvironmentViewPorts = (viewports) => {
-  if (!viewports) {
-    return []
-  }
-
-  return viewports
-    .split(',')
-    .map(parseEnvironmentViewPort)
-    .filter((v) => v)
-}
-
-const parseStringArgToMap = (arg) => {
-  const result = {}
-  if (!arg) {
-    return result
-  }
-
-  const pairs = arg.split(',')
-  for (pair of pairs) {
-    const [key, value] = pair.split('=')
-    res[key] = value
-  }
-
-  return result
-}
-
 const viewports = [defaultViewPortSize].concat(
-  parseEnvironmentViewPorts(process.env.PA11Y_VIEWPORTS)
+  utils.parseEnvironmentViewPorts(process.env.PA11Y_VIEWPORTS)
 )
 
 const smoke = require(process.env.PA11Y_TEST_FILE)
@@ -99,7 +65,7 @@ console.log('config.defaults.hideElements:', config.defaults.hideElements)
 // Don't console.log headers once Hearer args is added to the object (possible private keys added)
 config.defaults.headers = {
   ...config.defaults.headers,
-  ...parseStringArgToMap(process.env.PA11Y_HEADERS),
+  ...utils.parseStringArgToMap(process.env.PA11Y_HEADERS),
 }
 
 smoke.forEach((smokeConfig) => {
