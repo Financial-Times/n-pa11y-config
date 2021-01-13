@@ -20,6 +20,7 @@ const args = {
   hide: process.env.PA11Y_HIDE,
   viewports: process.env.PA11Y_VIEWPORTS,
   headers: process.env.PA11Y_HEADERS,
+  screenCapturePath: process.env.PA11Y_SCREEN_CAPTURE_PATH,
 }
 
 const smoke = require(args.file)
@@ -151,7 +152,7 @@ for (let viewport of viewports) {
         appFlags = flags.substring(0, flags.indexOf(DEFAULT_FLAGS) - 1)
       }
 
-      const folderName = `/pa11y_screenCapture/${viewport.width}x${viewport.height}/${appFlags}`
+      const folderName = `${screenCapturePath}/${viewport.width}x${viewport.height}/${appFlags}`
 
       mkdirp.sync(path.join(process.cwd(), folderName))
       resultUrl.screenCapture = `.${folderName}/${screenshotName || 'root'}.png`
