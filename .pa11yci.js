@@ -5,6 +5,12 @@ const path = require('path')
 const mkdirp = require('mkdirp')
 const utils = require('./lib/utils')
 
+const DEFAULT_FLAGS = 'ads:off,sourcepoint:off,cookieMessage:off'
+const DEFAULT_VIEWPORT = {
+  width: 1280,
+  height: 800,
+}
+
 // Args received from the 'run' task
 const args = {
   file: process.env.PA11Y_TEST_FILE,
@@ -16,16 +22,11 @@ const args = {
   headers: process.env.PA11Y_HEADERS,
 }
 
-const defaultViewPortSize = {
-  width: 1280,
-  height: 800,
-}
-
-const viewports = [defaultViewPortSize].concat(utils.parseEnvironmentViewPorts(args.viewports))
-
 const smoke = require(args.file)
 
-const urls = []
+// What routes returning 200 in smoke.js should we not test?
+const exceptions = args.exceptions ? args.exceptions.split(',') : []
+const viewports = [DEFAULT_VIEWPORT].concat(utils.parseEnvironmentViewPorts(args.viewports))
 
 /**
  * Headers can be set:
@@ -35,14 +36,11 @@ const urls = []
  * No flags allowed inside the cookie for easier merging: use the FT-Flags header instead
  */
 
-const DEFAULT_COOKIE = 'secure=true'
-const DEFAULT_FLAGS = 'ads:off,sourcepoint:off,cookieMessage:off'
-
 // Add any global config (inc headers) here
 const config = {
   defaults: {
     headers: {
-      Cookie: DEFAULT_COOKIE,
+      Cookie: 'secure=true',
       'FT-Flags': DEFAULT_FLAGS,
     },
     timeout: 50000,
@@ -52,9 +50,6 @@ const config = {
   },
   urls: [],
 }
-
-// What routes returning 200 in smoke.js should we not test?
-const exceptions = args.exceptions ? args.exceptions.split(',') : []
 
 // What elements should we not run pa11y on (i.e. google ad iFrames)
 // Use with caution. May break the experience for users.
@@ -73,6 +68,7 @@ config.defaults.headers = {
   ...utils.parseStringArgToMap(pargs.headers),
 }
 
+const urls = []
 smoke.forEach((smokeConfig) => {
   for (let url in smokeConfig.urls) {
     let isException = false
