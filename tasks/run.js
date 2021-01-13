@@ -14,6 +14,7 @@ function run(file, options) {
     PA11Y_HIDE: options.hide,
     PA11Y_VIEWPORTS: options.viewports,
     PA11Y_HEADERS: options.headers,
+    PA11Y_SCREEN_CAPTURE_PATH: options.screenCapturePath,
   }
 
   return new Promise((resolve, reject) => {
