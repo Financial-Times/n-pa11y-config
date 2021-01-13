@@ -62,7 +62,7 @@ console.log('exceptions:', exceptions)
 console.log('args.hide:', args.hide)
 console.log('config.defaults.hideElements:', config.defaults.hideElements)
 
-// Don't console.log headers once Hearer args is added to the object (possible private keys added)
+// Don't console.log headers once Header args is added to the object (possible private keys added)
 config.defaults.headers = {
   ...config.defaults.headers,
   ...utils.parseStringArgToMap(pargs.headers),
