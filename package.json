@@ -4,6 +4,10 @@
   "description": "",
   "license": "MIT",
   "private": true,
+  "bin": {
+    "n-pa11y-config": "./bin/n-pa11y-config.js",
+    "npc": "./bin/n-pa11y-config.js"
+  },
   "scripts": {
     "heroku-postbuild": "make heroku-postbuild",
     "prepare": "npx snyk protect || npx snyk protect -d || true",
