@@ -30,6 +30,7 @@ program
       await run(file, options)
     } catch (err) {
       console.error(err)
+      process.exit(1);
     }
   })
 
