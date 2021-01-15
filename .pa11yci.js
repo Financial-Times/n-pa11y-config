@@ -24,6 +24,7 @@ const args = {
   screenCapturePath: process.env.PA11Y_SCREEN_CAPTURE_PATH,
 }
 
+console.log('Pa11y Configuration started. Loading tests file: ', file)
 const smoke = require(path.join(process.cwd(), args.file))
 
 // What routes returning 200 in smoke.js should we not test?
