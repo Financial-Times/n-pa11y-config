@@ -1,3 +1,4 @@
+const path = require('path')
 const {spawn} = require('child_process')
 
 function run(file, options) {
@@ -19,8 +20,13 @@ function run(file, options) {
 
   return new Promise((resolve, reject) => {
     console.log(`Running Pa11y CI on ${file}`)
-    const pa11y = spawn('pa11y-ci', {env: {...process.env, ...args}})
+    console.log('Pa11y config file: ', path.join(__dirname, '../.pa11yci.js'))
+    const pa11y = spawn('pa11y-ci', ['--config', path.join(__dirname, '../.pa11yci.js')], {
+      env: {...process.env, ...args},
+    })
     pa11y.stdout.pipe(process.stdout)
+    pa11y.stderr.pipe(process.stderr)
+
     pa11y.on('error', (error) => {
       reject(error)
     })
