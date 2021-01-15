@@ -3,8 +3,7 @@ const {spawn} = require('child_process')
 
 function run(file, options) {
   if (!file) {
-    console.error('Pa11y-config: Tests file not specified')
-    return
+    return Promise.reject('Pa11y-config: Tests file not specified')
   }
 
   const args = {
@@ -20,7 +19,6 @@ function run(file, options) {
 
   return new Promise((resolve, reject) => {
     console.log(`Running Pa11y CI on ${file}`)
-    console.log('Pa11y config file: ', path.join(__dirname, '../.pa11yci.js'))
     const pa11y = spawn('pa11y-ci', ['--config', path.join(__dirname, '../.pa11yci.js')], {
       env: {...process.env, ...args},
     })
@@ -31,8 +29,7 @@ function run(file, options) {
       reject(error)
     })
     pa11y.on('close', (code) => {
-      console.log(`Pa11y exited with code ${code}`)
-      resolve(code)
+       code > 0 ? reject(`Pa11y CI exited with code ${code}`) : resolve(code)
     })
   })
 }
