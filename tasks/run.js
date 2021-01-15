@@ -20,9 +20,19 @@ function run(file, options) {
 
   return new Promise((resolve, reject) => {
     console.log(`Running Pa11y CI on ${file}`)
-    const pa11y = spawn('pa11y-ci', ['--config', path.join(__dirname, '../.pa11yci.js')], {
-      env: {...process.env, ...args},
-    })
+
+    const configFile = path.join(__dirname, '../.pa11yci.js')
+    console.log('configFile = ', configFile)
+
+    try {
+      if (fs.existsSync(configFile)) {
+        console.log('configFile exists')
+      }
+    } catch (err) {
+      console.error(err)
+    }
+
+    const pa11y = spawn('pa11y-ci', configFile, {env: {...process.env, ...args}})
     pa11y.stdout.pipe(process.stdout)
     pa11y.stderr.pipe(process.stderr)
 
