@@ -7,7 +7,7 @@ program.version(require('../package.json').version)
 program
   .command('run [file]')
   .description('Runs Pa11y CI over the provided tests file.')
-  .option('-h, --host <host>', 'Base RUL to apply to all test routes')
+  .option('-o, --host <host>', 'Base RUL to apply to all test routes', '')
   .option('-w, --wait <wait>', 'The time to wait before running tests in milliseconds')
   .option('-e, --exceptions <exceptions>', 'Routes returning 200 that should not be tested')
   .option(
