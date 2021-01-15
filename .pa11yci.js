@@ -1,9 +1,10 @@
+const process = require('process')
 const extend = require('node.extend')
 const querystring = require('querystring')
 const {URL} = require('url')
 const path = require('path')
 const mkdirp = require('mkdirp')
-const utils = require('./lib/utils')
+const parser = require('./lib/parser')
 
 const DEFAULT_FLAGS = 'ads:off,sourcepoint:off,cookieMessage:off'
 const DEFAULT_VIEWPORT = {
@@ -23,11 +24,11 @@ const args = {
   screenCapturePath: process.env.PA11Y_SCREEN_CAPTURE_PATH,
 }
 
-const smoke = require(args.file)
+const smoke = require(path.join(process.cwd(), args.file))
 
 // What routes returning 200 in smoke.js should we not test?
 const exceptions = args.exceptions ? args.exceptions.split(',') : []
-const viewports = [DEFAULT_VIEWPORT].concat(utils.parseEnvironmentViewPorts(args.viewports))
+const viewports = [DEFAULT_VIEWPORT].concat(parser.parseEnvironmentViewPorts(args.viewports))
 
 /**
  * Headers can be set:
@@ -66,7 +67,7 @@ console.log('config.defaults.hideElements:', config.defaults.hideElements)
 // Don't console.log headers once Header args is added to the object (possible private keys added)
 config.defaults.headers = {
   ...config.defaults.headers,
-  ...utils.parseStringArgToMap(pargs.headers),
+  ...parser.parseStringArgToMap(args.headers),
 }
 
 const urls = []
