@@ -4,20 +4,13 @@
   "description": "",
   "license": "MIT",
   "private": true,
-  "bin": {
-    "n-pa11y-config": "./bin/n-pa11y-config.js",
-    "npc": "./bin/n-pa11y-config.js"
-  },
   "scripts": {
     "heroku-postbuild": "make heroku-postbuild",
     "prepare": "npx snyk protect || npx snyk protect -d || true",
     "test": "jest",
     "test:w": "jest --watchAll"
   },
-  "dependencies": {
-    "commander": "^6.2.1",
-    "pa11y-ci": "^2.4.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jest": "^26.6.3",
     "snyk": "^1.167.2"
