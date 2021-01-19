@@ -65,7 +65,7 @@ describe('nPa11yConfig', () => {
       expect(defaults.headers['FT-Flags']).toBe(config.headers['FT-Flags'])
     })
 
-    test('it should speficy "/output" as the screenshot output folder', () => {
+    test('it should use "/output" as the screenshot output folder', () => {
       config.screenCapturePath = '/output'
       config.host = 'https://localhost:3000'
       const {urls} = nPa11yConfig(config)
@@ -83,7 +83,7 @@ describe('nPa11yConfig', () => {
       expect(urls[0].screenCapture).toBeUndefined()
     })
 
-    test('it should ignore the routes with status different than 200', () => {
+    test('it should ignore the routes with status code different than 200', () => {
       const config = nPa11yConfig({
         tests: [
           {

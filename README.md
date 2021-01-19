@@ -20,7 +20,7 @@ npm install
 ### Install from NPM
 
 ```sh
-npm install --save-dev @financial-times/n-pa11y-tools
+npm install --save-dev @financial-times/n-pa11y-config
 ```
 
 ### Usage
@@ -69,7 +69,7 @@ Headers can be set:
 - globally for all apps (in the `headers` attribute)
 - per test (configured in the tests array)
 
-Headers objects will be merged, cookies and flags will be concatenated
+Headers objects will be merged, cookies and flags will be concatenated.
 No flags are allowed inside the cookie for easier merging: use the FT-Flags header instead.
 
 ### Hide
