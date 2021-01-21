@@ -1,0 +1,33 @@
+{
+  "name": "@financial-times/n-pa11y-config",
+  "version": "0.0.0",
+  "description": "Configuration module for Pa11y CI",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Financial-Times/n-pa11y-config.git"
+  },
+  "scripts": {
+    "prepare": "npx snyk protect || npx snyk protect -d || true",
+    "test": "jest",
+    "test:w": "jest --watchAll"
+  },
+  "dependencies": {
+    "mkdirp": "^1.0.4",
+    "node.extend": "^2.0.2"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "snyk": "^1.167.2"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "snyk": true,
+  "husky": {
+    "hooks": {
+      "commit-msg": "secret-squirrel-commitmsg",
+      "pre-commit": "secret-squirrel"
+    }
+  }
+}

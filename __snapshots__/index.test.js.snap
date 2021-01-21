@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`nPa11yConfig Configuration override it should return an object with the default configuration 1`] = `
+Object {
+  "defaults": Object {
+    "headers": Object {
+      "Cookie": "secure=true",
+      "FT-Flags": "ads:off,sourcepoint:off,cookieMessage:off",
+    },
+    "hideElements": "iframe[src*=google],iframe[src*=proxy],iframe[src*=doubleclick]",
+    "rules": Array [
+      "Principle1.Guideline1_3.1_3_1_AAA",
+    ],
+    "timeout": 50000,
+    "wait": 300,
+  },
+  "urls": Array [
+    Object {
+      "url": "/page/home-uk",
+      "viewport": Object {
+        "height": 800,
+        "width": 1280,
+      },
+    },
+    Object {
+      "url": "/page/home-international",
+      "viewport": Object {
+        "height": 800,
+        "width": 1280,
+      },
+    },
+  ],
+}
+`;
