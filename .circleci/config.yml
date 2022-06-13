@@ -127,6 +127,11 @@ jobs:
 workflows:
   version: 2
   build-test:
+    when:
+      not:
+        equal:
+          - scheduled_pipeline
+          - << pipeline.trigger_source >>
     jobs:
       - build:
           filters:
@@ -136,6 +141,11 @@ workflows:
             - build
 
   build-test-publish:
+    when:
+      not:
+        equal:
+          - scheduled_pipeline
+          - << pipeline.trigger_source >>
     jobs:
       - build:
           filters:
@@ -153,6 +163,11 @@ workflows:
             - test
 
   renovate-nori-build-test:
+    when:
+      not:
+        equal:
+          - scheduled_pipeline
+          - << pipeline.trigger_source >>
     jobs:
       - waiting-for-approval:
           type: approval
@@ -166,11 +181,14 @@ workflows:
             - build
 
   nightly:
-    triggers:
-      - schedule:
-          cron: '0 0 * * *'
-          filters:
-            <<: *filters_only_main
+    when:
+      and:
+        - equal:
+            - scheduled_pipeline
+            - << pipeline.trigger_source >>
+        - equal:
+            - nightly
+            - << pipeline.schedule.name >>
     jobs:
       - build:
           context: next-nightly-build
