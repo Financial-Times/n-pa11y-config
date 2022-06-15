@@ -124,6 +124,8 @@ jobs:
           name: shared-helper / npm-version-and-publish-public
           command: .circleci/shared-helpers/helper-npm-version-and-publish-public
 
+version: 2.1
+
 workflows:
   version: 2
   build-test:
