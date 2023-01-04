@@ -76,3 +76,4 @@ No flags are allowed inside the cookie for easier merging: use the FT-Flags head
 
 Include in the `hide` attribute the elements that should not run pa11y (i.e. google ad iFrames)
 Use with caution. It may break the experience for users.
+test
