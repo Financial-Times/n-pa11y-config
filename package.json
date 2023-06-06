@@ -21,7 +21,8 @@
     "snyk": "^1.167.2"
   },
   "engines": {
-    "node": "16.x"
+    "node": "16.x || 18.x",
+    "npm": "7.x || 8.x || 9.x"
   },
   "snyk": true,
   "husky": {
@@ -29,5 +30,8 @@
       "commit-msg": "secret-squirrel-commitmsg",
       "pre-commit": "secret-squirrel"
     }
+  },
+  "volta": {
+    "node": "18.16.0"
   }
 }
